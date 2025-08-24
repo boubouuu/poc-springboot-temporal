@@ -1,0 +1,8 @@
+temporal:
+  target: localhost:7233
+  namespace: default
+  task-queue: test-tq
+
+spring:
+  application:
+    name: poc-temporal
