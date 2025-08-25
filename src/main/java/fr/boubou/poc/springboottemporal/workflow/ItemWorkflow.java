@@ -1,4 +1,3 @@
-// src/main/java/com/poc/workflow/TestWorkflow.java
 package fr.boubou.poc.springboottemporal.workflow;
 
 import io.temporal.workflow.QueryMethod;
@@ -7,13 +6,13 @@ import io.temporal.workflow.WorkflowInterface;
 import io.temporal.workflow.WorkflowMethod;
 
 @WorkflowInterface
-public interface TestWorkflow {
+public interface ItemWorkflow {
 
     @WorkflowMethod
-    String run(String entryData);
+    String run(String item);
 
     @SignalMethod
-     void cancel();
+    void cancel();
 
     @QueryMethod
     String state();

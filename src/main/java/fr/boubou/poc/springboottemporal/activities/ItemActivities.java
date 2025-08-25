@@ -1,11 +1,11 @@
 package fr.boubou.poc.springboottemporal.activities;
 
-import fr.boubou.poc.springboottemporal.workflow.StepStatus;
 import io.temporal.activity.ActivityInterface;
 import io.temporal.activity.ActivityMethod;
 
 @ActivityInterface
-public interface StepAActivities {
+public interface ItemActivities {
 
-  @ActivityMethod String startStepA(String entryData);
+    @ActivityMethod
+    String process(String string);
 }

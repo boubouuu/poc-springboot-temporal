@@ -1,10 +1,12 @@
 
 package fr.boubou.poc.springboottemporal.api;
 
-import fr.boubou.poc.springboottemporal.workflow.TestWorkflow;
+import fr.boubou.poc.springboottemporal.workflow.MainWorkflow;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/poc")
@@ -21,26 +23,10 @@ public class PocController {
     }
 
     @GetMapping("/test")
-    public StartResponse start(@RequestParam(defaultValue = "corr-1") String correlationId,
-                               @RequestParam(required = false) String workflowId) {
-        WorkflowOptions o = workflowId == null ? opts :
-                WorkflowOptions.newBuilder(opts).setWorkflowId(workflowId).build();
-        TestWorkflow wf = client.newWorkflowStub(TestWorkflow.class, o);
-        var exec = WorkflowClient.start(wf::run, correlationId);
+    public StartResponse start() {
+        MainWorkflow wf = client.newWorkflowStub(MainWorkflow.class, opts);
+        var exec = WorkflowClient.start(wf::run, List.of("zui", "Ljk", "lul", "mdr", "ptdr", "xd", "xptdr", "yolo", "swag", "tkt", "tkt", "tkta", "tktb"));
         return new StartResponse(exec.getWorkflowId(), exec.getRunId());
-    }
-
-    @GetMapping("/test/{id}/state")
-    public String state(@PathVariable String id) {
-        TestWorkflow wf = client.newWorkflowStub(TestWorkflow.class, id);
-        return wf.state();
-    }
-
-    @GetMapping("/test/{id}/cancel")
-    public String cancel(@PathVariable String id) {
-        TestWorkflow wf = client.newWorkflowStub(TestWorkflow.class, id);
-        wf.cancel();
-        return "cancel signalled";
     }
 
     public record StartResponse(String workflowId, String runId) {

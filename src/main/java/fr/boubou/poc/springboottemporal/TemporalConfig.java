@@ -1,7 +1,10 @@
 package fr.boubou.poc.springboottemporal;
 
-import fr.boubou.poc.springboottemporal.activities.StepAActivitiesImpl;
-import fr.boubou.poc.springboottemporal.workflow.TestWorkflowImpl;
+import fr.boubou.poc.springboottemporal.activities.ItemActivitiesImpl;
+import fr.boubou.poc.springboottemporal.activities.StatusActivitiesImpl;
+import fr.boubou.poc.springboottemporal.activities.MainWorkflowActivitiesImpl;
+import fr.boubou.poc.springboottemporal.workflow.ItemWorkflowImpl;
+import fr.boubou.poc.springboottemporal.workflow.MainWorkflowImpl;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowClientOptions;
 import io.temporal.serviceclient.WorkflowServiceStubs;
@@ -35,8 +38,8 @@ public class TemporalConfig {
   @Bean WorkerFactory workerFactory(WorkflowClient client) {
     WorkerFactory f = WorkerFactory.newInstance(client);
     Worker w = f.newWorker(taskQueue);
-    w.registerWorkflowImplementationTypes(TestWorkflowImpl.class);
-    w.registerActivitiesImplementations(new StepAActivitiesImpl());
+    w.registerWorkflowImplementationTypes(MainWorkflowImpl.class, ItemWorkflowImpl.class);
+    w.registerActivitiesImplementations(new MainWorkflowActivitiesImpl(), new StatusActivitiesImpl(), new ItemActivitiesImpl());
     f.start();
     return f;
   }
